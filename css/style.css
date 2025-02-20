@@ -5,6 +5,10 @@
     outline-style: none;
 }
 
+html::-webkit-scrollbar {
+    display: none;
+}
+
 ul,
 ol {
     list-style: none;
@@ -27,5 +31,5 @@ html {
 
 body {
     /* font-family: 'IBM Plex Serif', serif; */
-    overflow-x: hidden;
+    overflow: hidden;
 }

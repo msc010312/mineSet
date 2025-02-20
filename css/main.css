@@ -16,26 +16,37 @@
 .control {
     position: relative;
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    height: 50px;
+    height: 100px;
     gap: 15px;
     padding: 0 20px;
     border-bottom: 1px solid #333;
 }
 
-.board {
+.exam {
     position: relative;
-    border: none;
-    height: 100vh;
+    display: flex;
+    gap: 2px;
 }
 
-.tbl {
+.board {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
+    max-height: 100vh;
+    border: none;
+    padding-bottom: 200px;
+    overflow: scroll;
 }
+
+.tbl {
+    position: relative;
+}
+
+
 
 #map {
     position: relative;
@@ -47,8 +58,31 @@
     
 }
 
-#map>tr>td {
+#map>tr>td,.exam li {
+    max-width: 50px;
+    max-height: 50px;
     width: 50px;
     height: 50px;
     border: 1px solid #333;
+}
+
+.flag {
+    background: url();
+    object-fit: cover;
+}
+
+.mine {
+    background: url();
+    object-fit: cover;
+    background-color: crimson;
+}
+
+.open {
+    background: #ccc;
+}
+
+.q-mark {
+    background: url();
+    object-fit: cover;
+    background-color: aquamarine;
 }
