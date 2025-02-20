@@ -33,6 +33,8 @@ function newmap(rowCol) {
     };
     if (rowCol.row > 10 || rowCol.col > 10) {
         alert('최대크기는 10입니다')
+    } else if (rowCol.row != rowCol.col) {
+        alert('가로 세로 길이를 같게 해주세요')
     } else {
         for (let i = 0; i < rowCol.row; i++) {
             const newtr = document.createElement('tr')
@@ -49,13 +51,13 @@ function newmap(rowCol) {
 
 function setMine(mineNumArr) {
     let minesarr = new Set();
-        while (minesarr.size < mineNumArr.mineNum) {
-            let randomNum = Math.floor(Math.random() * mineNumArr.mineLimit)
-            // console.log(randomNum)
-            minesarr.add(randomNum);
-        };
-        // console.log(minesarr)
-        return Array.from(minesarr);
+    while (minesarr.size < mineNumArr.mineNum) {
+        let randomNum = Math.floor(Math.random() * mineNumArr.mineLimit)
+        // console.log(randomNum)
+        minesarr.add(randomNum);
+    };
+    // console.log(minesarr)
+    return Array.from(minesarr);
 }
 
 function pushMine(minesarr) {
