@@ -55,9 +55,7 @@ function newmap(rowCol) {
                     }
                      else {
                         e.target.classList.add('open');
-                        e.target.classList.remove('normal');
-                        e.target.style.setProperty('border-color','#8d0d26',"important")
-                    }
+                        e.target.classList.remove('normal');                    }
                 });
                 newtd.addEventListener('contextmenu',(e)=>{
                     e.preventDefault();
@@ -74,6 +72,7 @@ function newmap(rowCol) {
     //         e.target.classList.add('open')
     //     }
     // });
+    startTimer();
 };
 
 
@@ -97,4 +96,19 @@ function pushMine(minesarr) {
             tdArr[i].classList.add('mine')
         }
     }
+}
+
+function gameOver() {
+    const allMines = document.querySelectorAll('.mine');
+    allMines.forEach(mine => {
+        mine.classList.remove('normal');
+    });
+
+    setTimeout(() => {
+        alert('게임 오버!');
+    }, 100);
+}
+
+function startTimer() {
+    let cnt = 0;
 }

@@ -72,6 +72,7 @@
     background: url(../asset/mine.png);
     background-size: contain;
     background-color: crimson;
+    border-color: #8d0d26 !important;
 }
 
 
