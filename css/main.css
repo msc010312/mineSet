@@ -63,26 +63,36 @@
     max-height: 50px;
     width: 50px;
     height: 50px;
-    border: 1px solid #333;
+    border: 3px solid #3c3c3c;
+    border-radius: 5px;
 }
 
-.flag {
-    background: url();
-    object-fit: cover;
-}
 
 .mine {
-    background: url();
-    object-fit: cover;
+    background: url(../asset/mine.png);
+    background-size: contain;
     background-color: crimson;
 }
 
+
 .open {
+    background: #fff;
+}
+
+.normal {
     background: #ccc;
 }
 
+.flag {
+    background: url(../asset/flag.png);
+    background-size: contain;
+    background-color: royalblue;
+    border-color: #2a4390 !important;
+}
+
 .q-mark {
-    background: url();
-    object-fit: cover;
-    background-color: aquamarine;
+    background: url(../asset/question\ mark.png);
+    background-size: contain;
+    background-color: #4caf50;
+    border-color: #227125 !important;
 }
