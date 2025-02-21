@@ -33,9 +33,12 @@ function newmap(rowCol) {
     // 테이블 생성
     const tbl = document.getElementById('map');
 
+    // 새 테이블 생성 시 기존 테이블 삭제
     while (tbl.firstChild) {
         tbl.removeChild(tbl.firstChild)
     };
+
+    // 최대크기 지정
     if (rowCol.row > 10 || rowCol.col > 10) {
         alert('최대크기는 10입니다')
     } else if (rowCol.row != rowCol.col) {
@@ -46,21 +49,15 @@ function newmap(rowCol) {
             for (let j = 0; j < rowCol.col; j++) {
                 const newtd = document.createElement('td');
                 newtd.classList.add('normal')
-                newtd.addEventListener('click', (e) => {
-                    if(e.target.classList.contains('flag')){
-                        return;
-                    }
-                    if (e.target.classList.contains('mine')) {
-                        gameOver();
-                    }
-                     else {
-                        e.target.classList.add('open');
-                        e.target.classList.remove('normal');                    }
-                });
-                newtd.addEventListener('contextmenu',(e)=>{
-                    e.preventDefault();
-                    e.target.classList.toggle('flag');
-                })
+
+                // 왼쪽 클릭 이벤트
+                newtd.addEventListener('click', leftClick);
+
+                // 오른쪽 클릭 이벤트
+                newtd.addEventListener('contextmenu', rightClick);
+
+                // 게임 시작시 클릭 활성화
+                tbl.style.pointerEvents = 'all';
                 newtr.appendChild(newtd);
             }
             tbl.appendChild(newtr);
@@ -75,20 +72,56 @@ function newmap(rowCol) {
     startTimer();
 };
 
+// 왼쪽 클릭 함수
+function leftClick(e) {
+    const item = e.target
+    if (item.classList.contains('flag')|| item.classList.contains('q-mark')) {
+        return; // 깃발, 물음표를 눌렀을 경우 바로 리턴시킴
+    }
+    if (item.classList.contains('mine')) { // 지뢰를 눌렀을때 이벤트 처리
+        const mines = document.querySelectorAll('.mine');
+        mines.forEach(item => {
+            item.style.setProperty('border-color', '#8d0d26')
+        });
+        gameOver();
+    }
+    else {
+        item.classList.replace('normal', 'open'); // 일반칸을 눌렀을 경우
+    }
+}
 
-// 지뢰 생성
+// 오른쪽 클릭 함수
+function rightClick(e) {
+    e.preventDefault();
+    const item = e.target
+    if (item.classList.contains('flag')) {
+        item.classList.replace('flag', 'q-mark');
+    } else if(item.classList.contains('q-mark')) {
+        item.classList.remove('q-mark');
+        // item.classList.remove('flag');
+    } 
+    else {
+        item.classList.add('flag');
+    }
+    // if (e.target.classList.contains('q-mark')) {
+    //     e.target.classList.remove('q-mark')
+    // }
+}
+
+
+// 지뢰 생성 함수
 function setMine(mineNumArr) {
-    let minesarr = new Set();
+    let minesarr = new Set(); // Set()을 이용한 중복데이터 제거
     while (minesarr.size < mineNumArr.mineNum) {
         let randomNum = Math.floor(Math.random() * mineNumArr.mineLimit)
         // console.log(randomNum)
-        minesarr.add(randomNum);
+        minesarr.add(randomNum); // 랜덤 상수 출력
     };
     // console.log(minesarr)
-    return Array.from(minesarr);
+    return Array.from(minesarr); // 랜덤 상수 배열에 추가
 }
 
-// 지뢰 삽입
+// 지뢰 삽입 함수
 function pushMine(minesarr) {
     const tdArr = document.getElementsByTagName('td');
     for (let i = 0; i < tdArr.length; i++) {
@@ -98,17 +131,19 @@ function pushMine(minesarr) {
     }
 }
 
+// 게임오버 함수
 function gameOver() {
     const allMines = document.querySelectorAll('.mine');
     allMines.forEach(mine => {
         mine.classList.remove('normal');
     });
-
+    document.getElementById('map').style.pointerEvents = 'none';
     setTimeout(() => {
         alert('게임 오버!');
     }, 100);
 }
 
+// 타이머 함수
 function startTimer() {
     let cnt = 0;
 }

@@ -27,7 +27,7 @@
 .exam {
     position: relative;
     display: flex;
-    gap: 2px;
+    gap: 5px;
 }
 
 .board {
@@ -65,14 +65,17 @@
     height: 50px;
     border: 3px solid #3c3c3c;
     border-radius: 5px;
+    cursor: pointer;
 }
 
+.exam>.mine {
+    border-color: #8d0d26;
+}
 
 .mine {
     background: url(../asset/mine.png);
     background-size: contain;
     background-color: crimson;
-    border-color: #8d0d26 !important;
 }
 
 
