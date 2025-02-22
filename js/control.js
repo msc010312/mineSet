@@ -147,3 +147,8 @@ function gameOver() {
 function startTimer() {
     let cnt = 0;
 }
+
+// 숫자 표시 함수
+function mineNumber() {
+    
+}
