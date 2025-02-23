@@ -19,6 +19,8 @@ addbtn.addEventListener('click', (e) => {
     newmap(rowCol);
     const minearr = setMine(mineNumArr);
     pushMine(minearr);
+    // `pushMine` 실행 후 숫자 타일 생성
+    mineNumber();
     row.value = '';
     col.value = '';
     mine.value = '';
@@ -69,15 +71,15 @@ function newmap(rowCol) {
     //         e.target.classList.add('open')
     //     }
     // });
-    startTimer();
 };
 
 // 왼쪽 클릭 함수
 function leftClick(e) {
     const item = e.target
-    if (item.classList.contains('flag')|| item.classList.contains('q-mark')) {
+    if (item.classList.contains('flag') || item.classList.contains('q-mark')) {
         return; // 깃발, 물음표를 눌렀을 경우 바로 리턴시킴
     }
+
     if (item.classList.contains('mine')) { // 지뢰를 눌렀을때 이벤트 처리
         const mines = document.querySelectorAll('.mine');
         mines.forEach(item => {
@@ -88,6 +90,11 @@ function leftClick(e) {
     else {
         item.classList.replace('normal', 'open'); // 일반칸을 눌렀을 경우
     }
+
+    // 숫자칸이면 표시
+    if (item.dataset.num) {
+        item.textContent = item.dataset.num;
+    }
 }
 
 // 오른쪽 클릭 함수
@@ -96,10 +103,10 @@ function rightClick(e) {
     const item = e.target
     if (item.classList.contains('flag')) {
         item.classList.replace('flag', 'q-mark');
-    } else if(item.classList.contains('q-mark')) {
+    } else if (item.classList.contains('q-mark')) {
         item.classList.remove('q-mark');
         // item.classList.remove('flag');
-    } 
+    }
     else {
         item.classList.add('flag');
     }
@@ -135,7 +142,9 @@ function pushMine(minesarr) {
 function gameOver() {
     const allMines = document.querySelectorAll('.mine');
     allMines.forEach(mine => {
-        mine.classList.remove('normal');
+        mine.classList.remove('normal','flag','q-mark');
+        // mine.classList.remove('flag');
+        // mine.classList.remove('q-mark');
     });
     document.getElementById('map').style.pointerEvents = 'none';
     setTimeout(() => {
@@ -143,12 +152,52 @@ function gameOver() {
     }, 100);
 }
 
-// 타이머 함수
-function startTimer() {
-    let cnt = 0;
+// 숫자 표시 함수 (챗gpt로 만듦 공부할것 / DFS,BFS)
+function mineNumber() {
+    const tbl = document.getElementById('map');
+    const rows = tbl.rows.length;
+    const cols = tbl.rows[0].cells.length;
+
+    // 각 칸의 지뢰 개수를 계산
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            let cell = tbl.rows[i].cells[j];
+
+            // 지뢰가 있는 칸이면 건너뜀
+            if (cell.classList.contains('mine')) continue;
+
+            let mineCount = countMinesAround(i, j, rows, cols);
+
+            if (mineCount > 0) {
+                cell.dataset.num = mineCount;
+                cell.classList.add(`num${mineCount}`); // 숫자 타일 스타일 추가
+            }
+        }
+    }
 }
 
-// 숫자 표시 함수
-function mineNumber() {
-    
+// 특정 좌표 (row, col) 주변의 지뢰 개수 계산
+function countMinesAround(row, col, rows, cols) {
+    const directions = [
+        [-1, -1], [-1, 0], [-1, 1],  // 위쪽 3칸
+        [0, -1], [0, 1],    // 양 옆 2칸
+        [1, -1], [1, 0], [1, 1]      // 아래쪽 3칸
+    ];
+    let mineCount = 0;
+    const tbl = document.getElementById('map');
+
+    directions.forEach(([dx, dy]) => {
+        let newRow = row + dx;
+        let newCol = col + dy;
+
+        // 유효한 좌표인지 확인
+        if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+            if (tbl.rows[newRow].cells[newCol].classList.contains('mine')) {
+                mineCount++;
+            }
+        }
+    });
+
+    return mineCount;
 }
+

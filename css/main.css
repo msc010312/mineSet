@@ -78,9 +78,11 @@
     background-color: crimson;
 }
 
-
 .open {
     background: #fff;
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-align: center;
 }
 
 .normal {
@@ -99,4 +101,20 @@
     background-size: contain;
     background-color: #4caf50;
     border-color: #227125 !important;
+}
+
+.num1 {
+    color: royalblue;
+}
+
+.num2 {
+    color: #4caf50;
+}
+
+.num3 {
+    color: crimson;
+}
+
+.num4 {
+    color: navy;
 }
