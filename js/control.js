@@ -5,6 +5,9 @@ const row = conJoin.row;
 const col = conJoin.col;
 const mine = conJoin.mine;
 
+// 테이블 생성
+const tbl = document.getElementById('map');
+
 addbtn.addEventListener('click', (e) => {
     e.preventDefault();
     const rowCol = {
@@ -31,9 +34,6 @@ addbtn.addEventListener('click', (e) => {
 function newmap(rowCol) {
     // const row = document.getElementById('row').value;
     // const col = document.getElementById('col').value;
-
-    // 테이블 생성
-    const tbl = document.getElementById('map');
 
     // 새 테이블 생성 시 기존 테이블 삭제
     while (tbl.firstChild) {
@@ -154,7 +154,6 @@ function gameOver() {
 
 // 숫자 표시 함수 (챗gpt로 만듦 공부할것 / DFS,BFS)
 function mineNumber() {
-    const tbl = document.getElementById('map');
     const rows = tbl.rows.length;
     const cols = tbl.rows[0].cells.length;
 
@@ -184,7 +183,6 @@ function countMinesAround(row, col, rows, cols) {
         [1, -1], [1, 0], [1, 1]      // 아래쪽 3칸
     ];
     let mineCount = 0;
-    const tbl = document.getElementById('map');
 
     directions.forEach(([dx, dy]) => {
         let newRow = row + dx;
