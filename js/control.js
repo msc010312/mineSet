@@ -74,6 +74,7 @@ function leftClick(e) {
         mines.forEach(item => {
             item.style.setProperty('border-color', '#8d0d26')
         });
+        firstClick();
         gameOver();
     }
     else {
@@ -84,7 +85,10 @@ function leftClick(e) {
     if (item.dataset.num) {
         item.textContent = item.dataset.num;
     }
+}
 
+function firstClick() {
+    
 }
 
 // 오른쪽 클릭 함수
