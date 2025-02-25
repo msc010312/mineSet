@@ -3,7 +3,6 @@ const addbtn = document.querySelector('.add');
 const conJoin = document.conJoin;
 const row = conJoin.row;
 const col = conJoin.col;
-const mine = conJoin.mine;
 
 // 테이블 생성
 const tbl = document.getElementById('map');
@@ -15,7 +14,6 @@ addbtn.addEventListener('click', (e) => {
         col: parseInt(col.value),
     }
     const mineNumArr = {
-        mineNum: parseInt(mine.value),
         mineLimit: rowCol.row * rowCol.col,
     }
 
@@ -26,23 +24,20 @@ addbtn.addEventListener('click', (e) => {
     mineNumber();
     row.value = '';
     col.value = '';
-    mine.value = '';
+    row.focus();
 });
 
 
 
 function newmap(rowCol) {
-    // const row = document.getElementById('row').value;
-    // const col = document.getElementById('col').value;
-
     // 새 테이블 생성 시 기존 테이블 삭제
     while (tbl.firstChild) {
         tbl.removeChild(tbl.firstChild)
     };
 
     // 최대크기 지정
-    if (rowCol.row > 10 || rowCol.col > 10) {
-        alert('최대크기는 10입니다')
+    if (rowCol.row > 15 || rowCol.col > 15) {
+        alert('최대크기는 15입니다')
     } else if (rowCol.row != rowCol.col) {
         alert('가로 세로 길이를 같게 해주세요')
     } else {
@@ -65,12 +60,6 @@ function newmap(rowCol) {
             tbl.appendChild(newtr);
         }
     }
-    // const calltd = document.querySelector('#map>tr>td')
-    // calltd.addEventListener('click', (e) => {
-    //     if (e.target.tagName === 'td' && e.target.classList.contains('normal')) {
-    //         e.target.classList.add('open')
-    //     }
-    // });
 };
 
 // 왼쪽 클릭 함수
@@ -95,6 +84,7 @@ function leftClick(e) {
     if (item.dataset.num) {
         item.textContent = item.dataset.num;
     }
+
 }
 
 // 오른쪽 클릭 함수
@@ -105,26 +95,21 @@ function rightClick(e) {
         item.classList.replace('flag', 'q-mark');
     } else if (item.classList.contains('q-mark')) {
         item.classList.remove('q-mark');
-        // item.classList.remove('flag');
     }
     else {
         item.classList.add('flag');
     }
-    // if (e.target.classList.contains('q-mark')) {
-    //     e.target.classList.remove('q-mark')
-    // }
 }
 
 
-// 지뢰 생성 함수
+// 지뢰 생성 함수 
 function setMine(mineNumArr) {
     let minesarr = new Set(); // Set()을 이용한 중복데이터 제거
-    while (minesarr.size < mineNumArr.mineNum) {
+    let mineNum = (mineNumArr.mineLimit / 100) * 15 //전체크기의 15퍼만큼 생성(반올림)
+    while (minesarr.size < mineNum) {
         let randomNum = Math.floor(Math.random() * mineNumArr.mineLimit)
-        // console.log(randomNum)
         minesarr.add(randomNum); // 랜덤 상수 출력
     };
-    // console.log(minesarr)
     return Array.from(minesarr); // 랜덤 상수 배열에 추가
 }
 
@@ -143,8 +128,6 @@ function gameOver() {
     const allMines = document.querySelectorAll('.mine');
     allMines.forEach(mine => {
         mine.classList.remove('normal','flag','q-mark');
-        // mine.classList.remove('flag');
-        // mine.classList.remove('q-mark');
     });
     document.getElementById('map').style.pointerEvents = 'none';
     setTimeout(() => {
@@ -152,9 +135,11 @@ function gameOver() {
     }, 100);
 }
 
-// 숫자 표시 함수 (챗gpt로 만듦 공부할것 / DFS,BFS)
+// 숫자 표시 함수
 function mineNumber() {
     const rows = tbl.rows.length;
+    if(rows === 0) return;
+
     const cols = tbl.rows[0].cells.length;
 
     // 각 칸의 지뢰 개수를 계산
@@ -175,7 +160,7 @@ function mineNumber() {
     }
 }
 
-// 특정 좌표 (row, col) 주변의 지뢰 개수 계산
+// 특정 좌표 (row, col) 주변의 지뢰 개수 계산  (DFS,BFS)
 function countMinesAround(row, col, rows, cols) {
     const directions = [
         [-1, -1], [-1, 0], [-1, 1],  // 위쪽 3칸

@@ -5,10 +5,6 @@
     outline-style: none;
 }
 
-html::-webkit-scrollbar {
-    display: none;
-}
-
 ul,
 ol {
     list-style: none;
@@ -32,4 +28,16 @@ html {
 body {
     /* font-family: 'IBM Plex Serif', serif; */
     overflow: hidden;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox  */
+input[type='number'] {
+  -moz-appearance: textfield;
 }
